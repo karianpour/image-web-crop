@@ -177,7 +177,7 @@
 			<img
 				{src}
 				id="main-image"
-				class="object-contain w-fit"
+				class="object-contain w-fit max-h-[50vh]"
 				alt=""
 				on:load={initiateSizes}
 			/>
