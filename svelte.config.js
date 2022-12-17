@@ -18,7 +18,7 @@ const config = {
 		paths: {
 			base: dev ? '' : '/image-web-crop',
 		},
-		appDir: 'internal',
+		// appDir: 'internal',
 	},
 };
 
