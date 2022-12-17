@@ -1,20 +1,13 @@
 <script lang="ts">
-	import Button from './Button.svelte';
-	import Format from './Format.svelte';
 	import type { VariantType } from './ImageExport.svelte';
 
 	import ImageRatio from './ImageRatio.svelte';
-	import ImageSize from './ImageSize.svelte';
-	import TextInput from './TextInput.svelte';
+	import OutputParam from './OutputParam.svelte';
 
 	export let imageFile: File;
 	export let ratioWidth: number;
 	export let ratioHeight: number;
 	export let variants: VariantType[];
-
-	function download() {
-		console.log('download', fileName);
-	}
 
 	const fileName = getFileName(imageFile);
 
@@ -32,13 +25,11 @@
 	<div>{fileName}</div>
 	<ImageRatio bind:width={ratioWidth} bind:height={ratioHeight} />
 	{#each variants as variant}
-		<div class="flex flex-row items-center gap-2">
-			<Format bind:value={variant.format} />
-			<ImageSize bind:width={variant.width} ratio={ratioHeight / ratioWidth} />
-			<div class="flex grow max-w-[10rem]">
-				<TextInput label="Suffix" bind:value={variant.suffix} />
-			</div>
-		</div>
-		<Button on:click={download}>Download</Button>
+		<OutputParam
+			{imageFile}
+			ratio={ratioHeight / ratioWidth}
+			{variant}
+			{fileName}
+		/>
 	{/each}
 </div>
