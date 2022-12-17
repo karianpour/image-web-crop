@@ -19,7 +19,7 @@
 	}
 </script>
 
-<div>
+<div class="flex flex-col items-center">
 	{value}
 	<Button on:click={toggle}>change</Button>
 </div>

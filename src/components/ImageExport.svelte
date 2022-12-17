@@ -30,7 +30,7 @@
 	];
 </script>
 
-<div class="flex flex-col grow">
+<div class="flex flex-col grow gap-2">
 	<ImageCrop
 		{imageFile}
 		bind:top
@@ -38,5 +38,5 @@
 		bind:width
 		ratio={ratioHeight / ratioWidth}
 	/>
-	<OutputParams bind:variants bind:ratioWidth bind:ratioHeight />
+	<OutputParams bind:variants bind:ratioWidth bind:ratioHeight {imageFile} />
 </div>

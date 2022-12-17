@@ -11,7 +11,7 @@
 	}
 </script>
 
-<div class="flex flex-col flex-grow bg-blue-200">
+<div class="flex flex-col flex-grow">
 	{#if !imageInput.imageFile}
 		<ImageSelector on:selected={imageSelected} />
 	{/if}
