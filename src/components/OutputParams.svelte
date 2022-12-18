@@ -2,11 +2,13 @@
 	import type { VariantType } from './ImageExport.svelte';
 
 	import ImageRatio from './ImageRatio.svelte';
+	import ImageRotation from './ImageRotation.svelte';
 	import OutputParam from './OutputParam.svelte';
 
 	export let imageFile: File;
 	export let ratioWidth: number;
 	export let ratioHeight: number;
+	export let rotation: number;
 	export let variants: VariantType[];
 	export let top: number;
 	export let left: number;
@@ -26,7 +28,10 @@
 
 <div class="flex flex-col gap-2">
 	<div>{fileName}</div>
-	<ImageRatio bind:width={ratioWidth} bind:height={ratioHeight} />
+	<div class="flex gap-4 items-center">
+		<ImageRatio bind:width={ratioWidth} bind:height={ratioHeight} />
+		<ImageRotation bind:rotation />
+	</div>
 	{#each variants as variant}
 		<OutputParam
 			{imageFile}
@@ -36,6 +41,7 @@
 			{top}
 			{left}
 			{width}
+			{rotation}
 			height={(width * ratioHeight) / ratioWidth}
 		/>
 	{/each}

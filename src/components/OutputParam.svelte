@@ -12,6 +12,7 @@
 
 	export let imageFile: File;
 	export let ratio: number;
+	export let rotation: number;
 	export let fileName: string;
 	export let variant: VariantType;
 	export let top: number;
@@ -29,7 +30,7 @@
 			src,
 			{ width, height, top, left },
 			variant.width,
-			0,
+			rotation,
 			variant.format,
 			85,
 			'#fff',

@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
-	import type { FormatTypes } from './Format.svelte';
+	import type { ImageFormatTypes } from '../lib/image-types';
 
 	export type VariantType = {
 		width: number;
 		suffix: string;
-		format: FormatTypes;
+		format: ImageFormatTypes;
 	};
 </script>
 
@@ -18,6 +18,7 @@
 	let width = 0;
 	let ratioWidth = 16;
 	let ratioHeight = 9;
+	let rotation = 0;
 	let variants: VariantType[] = [
 		{
 			width: 1200,
@@ -39,11 +40,13 @@
 		bind:left
 		bind:width
 		ratio={ratioHeight / ratioWidth}
+		bind:rotation
 	/>
 	<OutputParams
 		bind:variants
 		bind:ratioWidth
 		bind:ratioHeight
+		bind:rotation
 		{imageFile}
 		{top}
 		{left}

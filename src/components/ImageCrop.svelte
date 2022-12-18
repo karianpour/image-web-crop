@@ -6,6 +6,7 @@
 	export let left: number;
 	export let width: number;
 	export let ratio: number;
+	export let rotation: number;
 	let scale: number = 1;
 	let imageWidth: number;
 	let imageHeight: number;
@@ -187,6 +188,7 @@
 				id="main-image"
 				class="object-contain w-fit max-h-[50vh]"
 				alt=""
+				style="transform: rotate({rotation}deg)"
 				on:load={initiateSizes}
 			/>
 			{#if width}
