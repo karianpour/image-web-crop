@@ -6,6 +6,7 @@
 	export let left: number;
 	export let width: number;
 	export let ratio: number;
+	let scale: number = 1;
 	let imageWidth: number;
 	let imageHeight: number;
 	const ofset = 3;
@@ -32,14 +33,16 @@
 	function initiateSizes(e: Event) {
 		const el = e.currentTarget as HTMLImageElement;
 		resizeObserver = new ResizeObserver((entries) => {
-			setupSizes(entries[0].target as HTMLElement);
+			setupSizes(entries[0].target as HTMLImageElement);
 		});
 		resizeObserver.observe(el);
 	}
 
-	function setupSizes(el: HTMLElement) {
-		imageWidth = el.offsetWidth;
-		imageHeight = el.offsetHeight;
+	function setupSizes(el: HTMLImageElement) {
+		scale = el.offsetWidth / el.naturalWidth;
+		console.log(scale);
+		imageWidth = el.naturalWidth;
+		imageHeight = el.naturalHeight;
 		const imageRatio = imageHeight / imageWidth;
 		if (ratio <= imageRatio) {
 			width = imageWidth;
@@ -92,8 +95,8 @@
 		const y = e.clientY;
 		if (position.active) {
 			const el = e.currentTarget as HTMLElement;
-			const xx = x - position.offset.x;
-			const yy = y - position.offset.y;
+			const xx = (x - position.offset.x) / scale;
+			const yy = (y - position.offset.y) / scale;
 			const north = el.dataset.north === 'true';
 			const west = el.dataset.west === 'true';
 			const whole = el.dataset.whole === 'true';
@@ -169,6 +172,11 @@
 			height = after.height;
 		}
 	}
+
+	$: scaledTop = top * scale;
+	$: scaledLeft = left * scale;
+	$: scaledWidth = width * scale;
+	$: scaledHeight = width * ratio * scale;
 </script>
 
 <div class="flex flex-grow flex-col justify-center items-center p-2">
@@ -184,8 +192,7 @@
 			{#if width}
 				<div
 					class="absolute border-2 border-dashed border-slate-300 cursor-move"
-					style="top: {top}px; left: {left}px; width: {width}px; height: {width *
-						ratio}px;"
+					style="top: {scaledTop}px; left: {scaledLeft}px; width: {scaledWidth}px; height: {scaledHeight}px;"
 					data-whole="true"
 					on:pointerdown={startDrag}
 					on:pointermove={moveDrag}
@@ -193,7 +200,7 @@
 				/>
 				<div
 					class="absolute bg-sky-700 cursor-se-resize"
-					style="top: {top - ofset}px; left: {left -
+					style="top: {scaledTop - ofset}px; left: {scaledLeft -
 						ofset}px; width: {handleSize}px; height: {handleSize}px;"
 					data-north="true"
 					data-west="true"
@@ -203,8 +210,8 @@
 				/>
 				<div
 					class="absolute bg-sky-700 cursor-sw-resize"
-					style="top: {top - ofset}px; left: {left +
-						width -
+					style="top: {scaledTop - ofset}px; left: {scaledLeft +
+						scaledWidth -
 						handleSize +
 						ofset}px; width: {handleSize}px; height: {handleSize}px;"
 					data-north="true"
@@ -215,11 +222,11 @@
 				/>
 				<div
 					class="absolute bg-sky-700 cursor-nw-resize"
-					style="top: {top +
-						width * ratio -
+					style="top: {scaledTop +
+						scaledHeight -
 						handleSize +
-						ofset}px; left: {left +
-						width -
+						ofset}px; left: {scaledLeft +
+						scaledWidth -
 						handleSize +
 						ofset}px; width: {handleSize}px; height: {handleSize}px;"
 					data-north="false"
@@ -230,10 +237,10 @@
 				/>
 				<div
 					class="absolute bg-sky-700 cursor-ne-resize"
-					style="top: {top +
-						width * ratio -
+					style="top: {scaledTop +
+						scaledHeight -
 						handleSize +
-						ofset}px; left: {left -
+						ofset}px; left: {scaledLeft -
 						ofset}px; width: {handleSize}px; height: {handleSize}px;"
 					data-north="false"
 					data-west="true"

@@ -1,8 +1,10 @@
 <script context="module" lang="ts">
+	import type { FormatTypes } from './Format.svelte';
+
 	export type VariantType = {
 		width: number;
 		suffix: string;
-		format: 'jpg';
+		format: FormatTypes;
 	};
 </script>
 
@@ -20,12 +22,12 @@
 		{
 			width: 1200,
 			suffix: '-main',
-			format: 'jpg',
+			format: 'image/jpeg',
 		},
 		{
 			width: 800,
 			suffix: '-thumb',
-			format: 'jpg',
+			format: 'image/jpeg',
 		},
 	];
 </script>
@@ -38,5 +40,13 @@
 		bind:width
 		ratio={ratioHeight / ratioWidth}
 	/>
-	<OutputParams bind:variants bind:ratioWidth bind:ratioHeight {imageFile} />
+	<OutputParams
+		bind:variants
+		bind:ratioWidth
+		bind:ratioHeight
+		{imageFile}
+		{top}
+		{left}
+		{width}
+	/>
 </div>

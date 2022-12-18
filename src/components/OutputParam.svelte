@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { suggestExtension } from '../lib/image-types';
+	import { downLoadFile } from '../lib/file-downloader';
+	import { getCroppedImg } from '../lib/image-cropper';
+	import { optimize } from '../lib/image-optimizer';
 	import Button from './Button.svelte';
 	import Format from './Format.svelte';
 	import type { VariantType } from './ImageExport.svelte';
@@ -10,9 +14,34 @@
 	export let ratio: number;
 	export let fileName: string;
 	export let variant: VariantType;
+	export let top: number;
+	export let left: number;
+	export let width: number;
+	export let height: number;
 
-	function download() {
-		console.log('download', fileName, imageFile, ratio, variant);
+	async function download() {
+		const extension = suggestExtension(variant.format);
+		const newFileName = fileName + variant.suffix + '.' + extension;
+
+		const src = URL.createObjectURL(imageFile);
+
+		const cropped = await getCroppedImg(
+			src,
+			{ width, height, top, left },
+			variant.width,
+			0,
+			variant.format,
+			85,
+			'#fff',
+		);
+		if (!cropped) return;
+		const buf = await cropped.arrayBuffer();
+
+		const optimized = await optimize(buf, variant.format);
+		if (!optimized) return;
+		const newFile = new File(optimized, fileName, { type: variant.format });
+
+		downLoadFile(newFile, newFileName);
 	}
 </script>
 

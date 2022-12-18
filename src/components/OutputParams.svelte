@@ -8,6 +8,9 @@
 	export let ratioWidth: number;
 	export let ratioHeight: number;
 	export let variants: VariantType[];
+	export let top: number;
+	export let left: number;
+	export let width: number;
 
 	const fileName = getFileName(imageFile);
 
@@ -30,6 +33,10 @@
 			ratio={ratioHeight / ratioWidth}
 			{variant}
 			{fileName}
+			{top}
+			{left}
+			{width}
+			height={(width * ratioHeight) / ratioWidth}
 		/>
 	{/each}
 </div>
