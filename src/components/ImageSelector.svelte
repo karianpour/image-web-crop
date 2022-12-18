@@ -9,6 +9,38 @@
 
 	const dispatch = createEventDispatcher<{ selected: FileSelectionType }>();
 
+	function dragingover(event: DragEvent) {
+		event.preventDefault();
+	}
+	function dropped(event: DragEvent) {
+		event.preventDefault();
+		console.log(event);
+
+		if (!event.dataTransfer) return;
+		console.log('1');
+
+		let file: File | null = null;
+
+		if (event.dataTransfer.items) {
+			const array = [...event.dataTransfer.items];
+			for (let item of array) {
+				if (item.kind === 'file') {
+					const itemFile = item.getAsFile();
+					if (itemFile) file = itemFile;
+					break;
+				}
+			}
+		} else {
+			const array = [...event.dataTransfer.files];
+			if (array.length > 0) file = array[0];
+		}
+		if (file) {
+			dispatch('selected', {
+				file,
+			});
+		}
+	}
+
 	function selected(
 		event: Event & { currentTarget: EventTarget & HTMLInputElement },
 	) {
@@ -28,6 +60,8 @@
 		<label
 			for={id}
 			class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+			on:drop={dropped}
+			on:dragover={dragingover}
 		>
 			<div class="flex flex-col items-center justify-center pt-5 pb-6">
 				<svg

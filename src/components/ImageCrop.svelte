@@ -15,7 +15,7 @@
 
 	onMount(() => {
 		if (FileReader) {
-			var fr = new FileReader();
+			const fr = new FileReader();
 			fr.onload = function () {
 				if (typeof fr.result === 'string') {
 					src = fr.result;
