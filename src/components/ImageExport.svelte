@@ -27,14 +27,14 @@
 			suffix: '-main',
 			format: 'image/jpeg',
 			quality: 83,
-			optimize: false,
+			optimize: true,
 		},
 		{
 			width: 800,
 			suffix: '-thumb',
 			format: 'image/jpeg',
 			quality: 83,
-			optimize: false,
+			optimize: true,
 		},
 	];
 </script>
