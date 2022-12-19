@@ -9,6 +9,8 @@
 
 	import ImageSize from './ImageSize.svelte';
 	import TextInput from './TextInput.svelte';
+	import ImageQuality from './ImageQuality.svelte';
+	import Optimization from './Optimization.svelte';
 
 	export let imageFile: File;
 	export let ratio: number;
@@ -32,15 +34,20 @@
 			variant.width,
 			rotation,
 			variant.format,
-			85,
+			variant.optimize ? 100 : variant.quality,
 			'#fff',
 		);
 		if (!cropped) return;
-		const buf = await cropped.arrayBuffer();
 
-		const optimized = await optimize(buf, variant.format);
-		if (!optimized) return;
-		const newFile = new File(optimized, fileName, { type: variant.format });
+		let newFile: File;
+		if (variant.optimize) {
+			const buf = await cropped.arrayBuffer();
+			const optimized = await optimize(buf, variant.format, variant.quality);
+			if (!optimized) return;
+			newFile = new File(optimized, fileName, { type: variant.format });
+		} else {
+			newFile = new File([cropped], fileName, { type: variant.format });
+		}
 
 		downLoadFile(newFile, newFileName);
 	}
@@ -49,6 +56,8 @@
 <div class="flex flex-row items-center gap-2">
 	<Format bind:value={variant.format} />
 	<ImageSize bind:width={variant.width} {ratio} />
+	<ImageQuality bind:quality={variant.quality} />
+	<Optimization bind:value={variant.optimize} />
 	<div class="flex grow max-w-[10rem]">
 		<TextInput label="Suffix" bind:value={variant.suffix} />
 	</div>

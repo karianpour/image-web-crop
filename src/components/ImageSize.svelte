@@ -5,7 +5,7 @@
 
 <div class="flex flex-col">
 	<label>
-		<div class="">{width} / {width * ratio}</div>
+		<div class="">{width} / {Math.round(width * ratio)}</div>
 		<input type="range" bind:value={width} min="100" max="2000" step="10" />
 	</label>
 </div>

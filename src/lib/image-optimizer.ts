@@ -20,6 +20,7 @@ const workerUrl = browser
 export async function optimize(
 	inputBuf: ArrayBuffer,
 	type: ImageFormatTypes,
+	quality: number,
 ): Promise<BlobPart[] | undefined> {
 	if (!workerUrl) return;
 	const worker = new Worker(workerUrl);
@@ -30,9 +31,17 @@ export async function optimize(
 		};
 	});
 
+	let args: any = undefined;
+	if (type === 'image/jpeg') {
+		args = { quality };
+	} else if (type === 'image/png') {
+		args = { quality: `${quality - 5}-${quality + 5}`, speed: '2' };
+	}
+
 	worker.postMessage({
 		data: new Uint8Array(inputBuf),
 		type,
+		args,
 	});
 	const newFile = await p;
 	return newFile;

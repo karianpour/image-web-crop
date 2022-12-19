@@ -34,10 +34,15 @@ export async function getCroppedImg(
 	const ctx = canvas.getContext('2d');
 	if (!ctx) return null;
 
-	const maxSize = Math.max(image.width, image.height);
+	const scale = finalWidth / pixelCrop.width;
+	const maxSize = Math.max(
+		image.width,
+		image.height,
+		pixelCrop.width * scale,
+		pixelCrop.height * scale,
+	);
 	const safeAreaW = 2 * ((maxSize / 2) * Math.sqrt(2));
 	const safeAreaH = 2 * ((maxSize / 2) * Math.sqrt(2));
-	const scale = finalWidth / pixelCrop.width;
 
 	// set each dimensions to double largest dimension to allow for a safe area for the
 	// image to rotate in without being clipped by canvas context
@@ -84,7 +89,7 @@ export async function getCroppedImg(
 				resolve(file);
 			},
 			format,
-			quality,
+			quality / 100,
 		);
 	});
 }

@@ -14,6 +14,18 @@
 			height: 3,
 		},
 		{
+			width: 5,
+			height: 4,
+		},
+		{
+			width: 3,
+			height: 4,
+		},
+		{
+			width: 1,
+			height: 2,
+		},
+		{
 			width: 2,
 			height: 1,
 		},

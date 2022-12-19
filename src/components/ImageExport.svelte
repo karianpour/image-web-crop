@@ -5,6 +5,8 @@
 		width: number;
 		suffix: string;
 		format: ImageFormatTypes;
+		quality: number;
+		optimize: boolean;
 	};
 </script>
 
@@ -24,11 +26,15 @@
 			width: 1200,
 			suffix: '-main',
 			format: 'image/jpeg',
+			quality: 83,
+			optimize: false,
 		},
 		{
 			width: 800,
 			suffix: '-thumb',
 			format: 'image/jpeg',
+			quality: 83,
+			optimize: false,
 		},
 	];
 </script>

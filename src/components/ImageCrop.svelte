@@ -41,7 +41,6 @@
 
 	function setupSizes(el: HTMLImageElement) {
 		scale = el.offsetWidth / el.naturalWidth;
-		console.log(scale);
 		imageWidth = el.naturalWidth;
 		imageHeight = el.naturalHeight;
 		const imageRatio = imageHeight / imageWidth;
@@ -182,7 +181,7 @@
 
 <div class="flex flex-grow flex-col justify-center items-center p-2">
 	{#if src}
-		<div class="w-fit h-fit justify-center relative">
+		<div class="w-fit h-fit justify-center relative overflow-hidden">
 			<img
 				{src}
 				id="main-image"
